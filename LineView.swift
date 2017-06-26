@@ -28,6 +28,57 @@ class LineView : UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func createLineOne(context: CGContext, width: Int , xPos: Int)
+    {
+        
+        context.setStrokeColor(colorOfView().cgColor)
+        context.move(to: CGPoint(x: xPos, y: 180))
+        context.addLine(to: CGPoint(x: width - xPos, y: 180))
+        context.strokePath()
+    
+    }
+    
+    
+    func createLineTwo(context: CGContext, width: Int , xPos: Int)
+    {
+        context.setStrokeColor(colorOfView().cgColor)
+        context.move(to: CGPoint(x: xPos, y: 300))
+        context.addLine(to: CGPoint(x: width - xPos, y: 300))
+        context.strokePath()
+    }
+    
+    
+    func createLineThree(context: CGContext, width: Int , xPos: Int)
+    {
+        context.setStrokeColor(colorOfView().cgColor)
+        context.move(to: CGPoint(x: xPos, y: 100))
+        context.addLine(to: CGPoint(x: width - xPos, y: 100))
+        context.strokePath()
+    }
+    
+    func createLineFour(context: CGContext, width: Int , xPos: Int)
+    {
+        
+        context.setStrokeColor(colorOfView().cgColor)
+        context.move(to: CGPoint(x: xPos, y: 100))
+        context.addLine(to: CGPoint(x: 340, y: 270))
+        context.addLine(to: CGPoint(x: 550, y: 100))
+        context.strokePath()
+    }
+    
+    
+    func createLineFive(context: CGContext, width: Int , height : Int, xPos: Int)
+    {
+        
+        context.setStrokeColor(colorOfView().cgColor)
+        context.move(to: CGPoint(x: xPos, y: height - 100))
+        context.addLine(to: CGPoint(x: 340, y: 100))
+        context.addLine(to: CGPoint(x: 580, y: 280))
+        context.strokePath()
+    }
+    
+    
+    
     override func draw(_ rect: CGRect) {
         if let context = UIGraphicsGetCurrentContext() {
             
@@ -36,97 +87,39 @@ class LineView : UIView {
             context.beginPath()
             let width = Int(self.frame.width)
             let height = Int(self.frame.height)
+            
+            let xPos = 100;
 
             switch numberOfLines {
             case 1:
-                context.setStrokeColor(colorOfView().cgColor)
-                context.move(to: CGPoint(x: 30, y: 200))
-                context.addLine(to: CGPoint(x: width - 50, y: 200))
-                context.strokePath()
+                createLineOne(context: context, width: width, xPos: xPos);
 
             case 2:
-                context.setStrokeColor(colorOfView().cgColor)
-                context.move(to: CGPoint(x: 30, y: 200))
-                context.addLine(to: CGPoint(x: width - 50, y: 200))
-                context.strokePath()
+                createLineOne(context: context, width: width, xPos: xPos);
+                createLineTwo(context: context, width: width, xPos: xPos);
 
-                context.setStrokeColor(colorOfView().cgColor)
-                
-                context.move(to: CGPoint(x: 30, y: 300))
-                context.addLine(to: CGPoint(x: width - 50, y: 300))
-                context.strokePath()
-                
             case 3:
-                context.setStrokeColor(colorOfView().cgColor)
-                context.move(to: CGPoint(x: 30, y: 200))
-                context.addLine(to: CGPoint(x: width - 50, y: 200))
-                context.strokePath()
-                
-                context.setStrokeColor(colorOfView().cgColor)
-                context.move(to: CGPoint(x: 30, y: 300))
-                context.addLine(to: CGPoint(x: width - 50, y: 300))
-                context.strokePath()
-                
-                context.setStrokeColor(colorOfView().cgColor)
-                context.move(to: CGPoint(x: 30, y: 100))
-                context.addLine(to: CGPoint(x: width - 50, y: 100))
-                context.strokePath()
-                
-                
+                createLineOne(context: context, width: width, xPos: xPos);
+                createLineTwo(context: context, width: width, xPos: xPos);
+                createLineThree(context: context, width: width, xPos: xPos);
+
             case 4:
-                context.setStrokeColor(colorOfView().cgColor)
-                context.move(to: CGPoint(x: 30, y: 200))
-                context.addLine(to: CGPoint(x: width - 50, y: 200))
-                context.strokePath()
+                createLineOne(context: context, width: width, xPos: xPos);
+                createLineTwo(context: context, width: width, xPos: xPos);
+                createLineThree(context: context, width: width, xPos: xPos);
+                createLineFour(context: context, width: width, xPos: xPos);
                 
-                context.setStrokeColor(colorOfView().cgColor)
-                context.move(to: CGPoint(x: 30, y: 300))
-                context.addLine(to: CGPoint(x: width - 50, y: 300))
-                context.strokePath()
-                
-                context.setStrokeColor(colorOfView().cgColor)
-                context.move(to: CGPoint(x: 30, y: 100))
-                context.addLine(to: CGPoint(x: width - 50, y: 100))
-                context.strokePath()
-                
-                context.setStrokeColor(colorOfView().cgColor)
-                context.move(to: CGPoint(x: 130, y: 100))
-                context.addLine(to: CGPoint(x: 340, y: 270))
-                context.addLine(to: CGPoint(x: 550, y: 100))
-                context.strokePath()
                 
             case 5:
-                context.setStrokeColor(colorOfView().cgColor)
-                context.move(to: CGPoint(x: 30, y: 200))
-                context.addLine(to: CGPoint(x: width - 50, y: 200))
-                context.strokePath()
-                
-                context.setStrokeColor(colorOfView().cgColor)
-                context.move(to: CGPoint(x: 30, y: 300))
-                context.addLine(to: CGPoint(x: width - 50, y: 300))
-                context.strokePath()
-                
-                context.setStrokeColor(colorOfView().cgColor)
-                context.move(to: CGPoint(x: 30, y: 100))
-                context.addLine(to: CGPoint(x: width - 50, y: 100))
-                context.strokePath()
-                
-                context.setStrokeColor(colorOfView().cgColor)
-                context.move(to: CGPoint(x: 130, y: 100))
-                context.addLine(to: CGPoint(x: 340, y: 270))
-                context.addLine(to: CGPoint(x: 550, y: 100))
-                context.strokePath()
-                
-                context.setStrokeColor(colorOfView().cgColor)
-                context.move(to: CGPoint(x: 100, y: height - 100))
-                context.addLine(to: CGPoint(x: 340, y: 100))
-                context.addLine(to: CGPoint(x: 580, y: 280))
-                context.strokePath()
-
+                createLineOne(context: context, width: width, xPos: xPos);
+                createLineTwo(context: context, width: width, xPos: xPos);
+                createLineThree(context: context, width: width, xPos: xPos);
+                createLineFour(context: context, width: width, xPos: xPos);
+                createLineFive(context: context, width: width, height: height , xPos: xPos);
                 
             default:
                 context.setStrokeColor(colorOfView().cgColor)
-                context.move(to: CGPoint(x: 100, y: height - 100))
+                context.move(to: CGPoint(x: xPos, y: height - 100))
                 context.addLine(to: CGPoint(x: 340, y: 100))
                 context.addLine(to: CGPoint(x: 580, y: 280))
                 context.strokePath()
@@ -135,6 +128,13 @@ class LineView : UIView {
             
             //context.strokePath()
         }
+    }
+    
+    
+    
+    func createLineOne()
+    {
+    
     }
     
     //Mark:-Method for genrating Random Colors
