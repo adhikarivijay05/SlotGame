@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A304a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="landscape">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OptionPopupViewController" customModule="SlotGame" customModuleProvider="target">
+            <connections>
+                <outlet property="tableView" destination="fwc-ZI-gig" id="qfQ-yJ-d3E"/>
+                <outlet property="view" destination="rxj-3r-E1l" id="P4s-B3-ocT"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="rxj-3r-E1l">
+            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FaF-v6-fr2">
+                    <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2uP-9Z-t4q">
+                            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="p4C-qn-obV">
+                            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                        </imageView>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JTg-Kg-t8w">
+                            <rect key="frame" x="30" y="36" width="609" height="303"/>
+                            <subviews>
+                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fwc-ZI-gig">
+                                    <rect key="frame" x="0.0" y="0.0" width="609" height="303"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </tableView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="msM-iq-wNx">
+                                    <rect key="frame" x="571" y="-13" width="50" height="50"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="50" id="BfM-5q-iE9"/>
+                                        <constraint firstAttribute="height" constant="50" id="PRl-ut-fhD"/>
+                                    </constraints>
+                                    <state key="normal" backgroundImage="cancel"/>
+                                    <connections>
+                                        <action selector="cancelButton:" destination="-1" eventType="touchUpInside" id="pLo-vD-6ND"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="fwc-ZI-gig" firstAttribute="leading" secondItem="JTg-Kg-t8w" secondAttribute="leading" id="BPA-6D-Vjj"/>
+                                <constraint firstAttribute="trailing" secondItem="fwc-ZI-gig" secondAttribute="trailing" id="TFD-RP-uKS"/>
+                                <constraint firstAttribute="bottom" secondItem="fwc-ZI-gig" secondAttribute="bottom" id="baS-vC-OIv"/>
+                                <constraint firstItem="msM-iq-wNx" firstAttribute="top" secondItem="JTg-Kg-t8w" secondAttribute="top" constant="-13" id="jF7-Gv-Wtv"/>
+                                <constraint firstAttribute="trailing" secondItem="msM-iq-wNx" secondAttribute="trailing" constant="-12" id="r67-Mc-KDt"/>
+                                <constraint firstItem="fwc-ZI-gig" firstAttribute="top" secondItem="JTg-Kg-t8w" secondAttribute="top" id="tXy-ay-xTI"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="p4C-qn-obV" secondAttribute="bottom" id="2Pd-4t-0Jx"/>
+                        <constraint firstAttribute="trailing" secondItem="2uP-9Z-t4q" secondAttribute="trailing" id="2iZ-kv-bmz"/>
+                        <constraint firstItem="p4C-qn-obV" firstAttribute="leading" secondItem="FaF-v6-fr2" secondAttribute="leading" id="KhZ-Ll-gd2"/>
+                        <constraint firstAttribute="trailing" secondItem="JTg-Kg-t8w" secondAttribute="trailing" constant="28" id="LW2-ln-RLW"/>
+                        <constraint firstItem="p4C-qn-obV" firstAttribute="top" secondItem="FaF-v6-fr2" secondAttribute="top" id="R6r-02-BM1"/>
+                        <constraint firstItem="2uP-9Z-t4q" firstAttribute="leading" secondItem="FaF-v6-fr2" secondAttribute="leading" id="Ubs-8o-xol"/>
+                        <constraint firstItem="JTg-Kg-t8w" firstAttribute="leading" secondItem="FaF-v6-fr2" secondAttribute="leading" constant="30" id="h2J-hV-rDM"/>
+                        <constraint firstItem="2uP-9Z-t4q" firstAttribute="top" secondItem="FaF-v6-fr2" secondAttribute="top" id="l4f-Z2-UEC"/>
+                        <constraint firstItem="JTg-Kg-t8w" firstAttribute="top" secondItem="FaF-v6-fr2" secondAttribute="top" constant="36" id="qCj-q8-2PV"/>
+                        <constraint firstAttribute="bottom" secondItem="JTg-Kg-t8w" secondAttribute="bottom" constant="36" id="rsA-tp-GgY"/>
+                        <constraint firstAttribute="trailing" secondItem="p4C-qn-obV" secondAttribute="trailing" id="wEm-mz-eTl"/>
+                        <constraint firstAttribute="bottom" secondItem="2uP-9Z-t4q" secondAttribute="bottom" id="yXd-4d-373"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="FaF-v6-fr2" secondAttribute="bottom" id="9Ft-Gu-R2a"/>
+                <constraint firstAttribute="trailing" secondItem="FaF-v6-fr2" secondAttribute="trailing" id="KJM-Jp-0fd"/>
+                <constraint firstItem="FaF-v6-fr2" firstAttribute="top" secondItem="rxj-3r-E1l" secondAttribute="top" id="LRo-iW-GEa"/>
+                <constraint firstItem="FaF-v6-fr2" firstAttribute="leading" secondItem="rxj-3r-E1l" secondAttribute="leading" id="lRA-iK-wJY"/>
+            </constraints>
+            <point key="canvasLocation" x="33.5" y="69.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="background" width="300" height="160"/>
+        <image name="cancel" width="64" height="64"/>
+    </resources>
+</document>
