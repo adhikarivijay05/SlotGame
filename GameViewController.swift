@@ -15,7 +15,9 @@ import Social
 
 class GameViewController: UIViewController {
     var pianoSound = NSURL(fileURLWithPath: Bundle.main.path(forResource: "ANIMATE1", ofType: "WAV")!)
+    var pianoSound3 = NSURL(fileURLWithPath: Bundle.main.path(forResource: "162473", ofType: "mp3")!)
     var audioPlayer = AVAudioPlayer()
+    var audioPlayer1 = AVAudioPlayer()
    var tableInts:[Int] = [3,5,9,23,21,7,1,13,17,25,11,15,19]
     
     @IBOutlet var creditlabel: UILabel!
@@ -77,14 +79,11 @@ class GameViewController: UIViewController {
      @IBOutlet weak var homeButton: UIButton!
     @IBOutlet weak var spinBtn: UIButton!
     @IBOutlet weak var shareOnFacebookBtn:UIButton!
-    var tableIntRight:[Int] = [15,13,11,9,7,5,3,1,2,4,6,8,10,12,14]
+    var tableIntRight:[Int] = [1,2,4,10,6,8,24,22,16,18,14,12,20]
     @IBOutlet var tableView : UITableView?
     @IBOutlet var tableViewRight : UITableView?
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
         tableView?.delegate = self
         tableView?.dataSource = self
         
@@ -109,6 +108,18 @@ class GameViewController: UIViewController {
 
         audioPlayer.prepareToPlay()
         audioPlayer.play()
+        
+        do {
+            audioPlayer1 = try AVAudioPlayer(contentsOf: pianoSound3 as URL )
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient)
+            try AVAudioSession.sharedInstance().setActive(true)
+        }
+        catch{
+            print(error)
+        }
+        
+        audioPlayer1.prepareToPlay()
+        
         
         setUI()
         hardReset()
@@ -139,6 +150,7 @@ class GameViewController: UIViewController {
     }
     
     @IBAction func homeButtonClicked(_ sender: Any) {
+        audioPlayer1.play()
         for controller in self.navigationController!.viewControllers as Array {
             if controller.isKind(of: HomeViewController.self) {
                 self.navigationController?.popToViewController(controller as UIViewController, animated: true)
@@ -177,7 +189,30 @@ class GameViewController: UIViewController {
         }, completion: nil)
     }
 
-
+    func animateDiamond() {
+        let path = UIBezierPath()
+        
+        let imageSunName = "diamond.png"
+        let imageSun = UIImage(named: imageSunName)
+        let imageView = UIImageView(image: imageSun!)
+        
+        imageView.frame = CGRect(x: 415, y: 295, width: 35, height: 24)
+        self.view.addSubview(imageView)
+        
+        path.move(to: CGPoint(x: 415,y: 295))
+        
+        path.addQuadCurve(to: CGPoint(x: 80, y: 300), controlPoint: CGPoint(x: 220, y: 220))
+        
+        let animation = CAKeyframeAnimation(keyPath: "position")
+        animation.path = path.cgPath
+        
+        animation.repeatCount = 0
+        animation.duration = 1.0
+        animation.fillMode = kCAFillModeForwards
+        animation.isRemovedOnCompletion = true
+        imageView.layer.add(animation, forKey: "animate position along path")
+        
+    }
     
     func initiateZCSlotMachineGame() {
         _slotMachine = ZCSlotMachine.init(frame: CGRect.init(x: 85, y: 62, width: 350, height: 268))
@@ -260,29 +295,31 @@ class GameViewController: UIViewController {
     @IBAction func plusBtnLines(_ sender: UIButton) {
         isDecrease = 1
         
-        _lineCustomView = UIView(frame: self.view.frame)
-         self.view.addSubview(_lineCustomView)
-       // for i in 0 ... Scoring.sharedGameData.noofLines {
-            
-           
-             //lineView = LineView(frame: self._lineCustomView.frame)
-           lineView = LineView(frame: self._lineCustomView.frame, lines: Scoring.sharedGameData.noofLines)
-
-          //  lineView.mapLines(lines: Scoring.sharedGameData.noofLines)
-            self._lineCustomView.addSubview(lineView)
-       //}
-        var _ = Timer.scheduledTimer(timeInterval:1.0, target: self, selector: Selector("update1"), userInfo: nil, repeats: false)
         
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapBlurButton(_:)))
-//        _lineCustomView .addGestureRecognizer(tapGesture)
-
+        // for i in 0 ... Scoring.sharedGameData.noofLines {
+        createLines(NumbersLine: Scoring.sharedGameData.noofLines)
         
-        if Scoring.sharedGameData.noofLines > 24 {
+        //lineView = LineView(frame: self._lineCustomView.frame)
+    
+        
+        if Scoring.sharedGameData.noofLines > 25 {
             return
         }
         Scoring.sharedGameData.noofLines = Scoring.sharedGameData.noofLines + 1
         updateMainView()
     }
+    func createLines(NumbersLine : Int) {
+        _lineCustomView = UIView(frame: self.view.frame)
+        self.view.addSubview(_lineCustomView)
+        
+        lineView = LineView(frame: self._lineCustomView.frame, lines: NumbersLine)
+        
+        //  lineView.mapLines(lines: Scoring.sharedGameData.noofLines)
+        self._lineCustomView.addSubview(lineView)
+        //}
+        var _ = Timer.scheduledTimer(timeInterval:1.0, target: self, selector: Selector("update1"), userInfo: nil, repeats: false)
+    }
+    
     func update1() {
         _lineCustomView.removeFromSuperview()
     }
@@ -291,7 +328,7 @@ class GameViewController: UIViewController {
         
         
         
-        if Scoring.sharedGameData.noofLines < 1 {
+        if Scoring.sharedGameData.noofLines < 2 {
             return
         }
         Scoring.sharedGameData.noofLines = Scoring.sharedGameData.noofLines - 1
@@ -352,16 +389,18 @@ class GameViewController: UIViewController {
         }else{
             audioPlayer.play()
             // var timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.update), userInfo: nil, repeats: false);
-            if isDecrease == 0 {
-                isDecrease = 3
-                Scoring.sharedGameData.credits =  Scoring.sharedGameData.credits - (Scoring.sharedGameData.lastBet *  Scoring.sharedGameData.noofLines)
-                totalDeduction.text =  String(format: "%@", "\((Scoring.sharedGameData.lastBet *  Scoring.sharedGameData.noofLines))")
-            }
-            if isDecrease == 2 {
-                isDecrease = 3
-                Scoring.sharedGameData.credits =  Scoring.sharedGameData.credits + (Scoring.sharedGameData.lastBet *  Scoring.sharedGameData.noofLines)
-                totalDeduction.text =  String(format: "%@", "\((Scoring.sharedGameData.lastBet *  Scoring.sharedGameData.noofLines))")
-            }
+            Scoring.sharedGameData.credits =  Scoring.sharedGameData.credits - (Scoring.sharedGameData.lastBet *  Scoring.sharedGameData.noofLines)
+            totalDeduction.text =  String(format: "%@", "\((Scoring.sharedGameData.lastBet *  Scoring.sharedGameData.noofLines))")
+//            if isDecrease == 0 {
+//                isDecrease = 0
+//                Scoring.sharedGameData.credits =  Scoring.sharedGameData.credits - (Scoring.sharedGameData.lastBet *  Scoring.sharedGameData.noofLines)
+//                totalDeduction.text =  String(format: "%@", "\((Scoring.sharedGameData.lastBet *  Scoring.sharedGameData.noofLines))")
+//            }
+//            if isDecrease == 2 {
+//                isDecrease = 3
+//                Scoring.sharedGameData.credits =  Scoring.sharedGameData.credits + (Scoring.sharedGameData.lastBet *  Scoring.sharedGameData.noofLines)
+//                totalDeduction.text =  String(format: "%@", "\((Scoring.sharedGameData.lastBet *  Scoring.sharedGameData.noofLines))")
+//            }
             updateMainView()
             startZCSlotMachine()
         }
@@ -421,6 +460,7 @@ class GameViewController: UIViewController {
     }
     
     @IBAction func homebtnClicked(_ sender: Any) {
+        audioPlayer1.play()
         let homeViewObj = ZCGameViewController.init(nibName: "ZCGameViewController", bundle: nil)
         self.navigationController?.pushViewController(homeViewObj, animated: false)
 
@@ -454,7 +494,7 @@ class GameViewController: UIViewController {
 
         totalDeduction.text = String(format: "%@", "\((Scoring.sharedGameData.lastBet *  Scoring.sharedGameData.noofLines))")
         
-        Scoring.sharedGameData.lastBet = 1
+      //  Scoring.sharedGameData.lastBet = 1
      //   levelNumberlabel.text = "0"
         updateMainView()
     }
@@ -504,11 +544,12 @@ class GameViewController: UIViewController {
     func startZCSlotMachine() {
         let slotIconCount : Int = _slotIcons.count
        
-        let slotOneIndex = Swift.abs(Int(arc4random_uniform(12)) % slotIconCount)
-        let slotTwoIndex = Swift.abs(Int(arc4random_uniform(12)) % slotIconCount)
-        let slotThreeIndex = Swift.abs(Int(arc4random_uniform(12)) % slotIconCount)
-        let slotFourIndex = Swift.abs(Int(arc4random_uniform(12)) % slotIconCount)
-        let slotFiveIndex = Swift.abs(Int(arc4random_uniform(12)) % slotIconCount)
+        let slotOneIndex = Swift.abs(Int(arc4random_uniform(10)) % slotIconCount)
+        let slotTwoIndex = Swift.abs(Int(arc4random_uniform(10)) % slotIconCount)
+        let slotThreeIndex = Swift.abs(Int(arc4random_uniform(10)) % slotIconCount)
+        let slotFourIndex = Swift.abs(Int(arc4random_uniform(10)) % slotIconCount)
+        let slotFiveIndex = Swift.abs(Int(arc4random_uniform(10)) % slotIconCount)
+        
         _slotOneImageView.image = _slotIcons[slotOneIndex];
          _slotTwoImageView.image = _slotIcons[slotTwoIndex];
          _slotThreeImageView.image = _slotIcons[slotThreeIndex];
@@ -518,8 +559,23 @@ class GameViewController: UIViewController {
         let resultarray: NSArray? = NSArray(objects: NSNumber.init(value: slotOneIndex), NSNumber.init(value: slotTwoIndex),NSNumber.init(value: slotThreeIndex),NSNumber.init(value: slotFourIndex),NSNumber.init(value: slotFiveIndex))
         
         _slotMachine.slotResults = resultarray as! [Any]!
+        print("slot result ...\(_slotMachine.slotResults)");
+        
+        let imageArray   = _slotMachine.slotResults.map{  "Motorcycle_icon" + String(describing: $0) }
+        print(imageArray)
+        
+        for value in imageArray{
+            
+            print(ValueDictionary[value] as Any)
+        }
+        
+        
+        
         _slotMachine .startSliding()
-            }
+        
+        
+        
+    }
     
     
 }
@@ -547,15 +603,26 @@ extension GameViewController : ZCSlotMachineDelegate
         winnings = winningsMultiplier * Scoring.sharedGameData.lastBet
         Scoring.sharedGameData.winningPoints += winnings
         Scoring.sharedGameData.credits += winnings
-        Scoring.sharedGameData.credits = Scoring.sharedGameData.credits - Scoring.sharedGameData.lastBet
+     //   Scoring.sharedGameData.credits = Scoring.sharedGameData.credits - Scoring.sharedGameData.lastBet
      //   totalDeduction.text =  String(format: "TD: %@", "\((Scoring.sharedGameData.lastBet))")
+        
+        if winnings > 0 {
+            createLines(NumbersLine: randomNumberlines())
+            animateDiamond()
+        }
+        
+        
         isDecrease = 1
         setlevel()
-        
-       // currentBet = 0
         updateMainView()
     }
-    
+    //temp code
+    func randomNumberlines()-> Int{
+        let random_number =  Int(arc4random_uniform(UInt32(1)) + UInt32(4));
+        
+        return random_number
+        
+    }
     func setlevel() {
        let points = Scoring.sharedGameData.winningPoints
         if points >= 50 && points <= 150 {
@@ -567,18 +634,14 @@ extension GameViewController : ZCSlotMachineDelegate
                 Scoring.sharedGameData.gameLevel = 2
                 
                 
-                utility.popUpAlert(title : "Congrats", message : "You cleared first level and won 200 credits, Lottery Ticket number is \(randomNumber())" , cancelButton : "OK", defaultButton : "cancel", ref : self)
-                
+                let ticketView = TicketViewController.init(nibName: "TicketViewController", bundle: nil)
+              ticketView.lotteryTicket = "\(self.randomNumber())"
+               ticketView.textTicket = "You cleared first level and won 200 credits, Lottery Ticket number is"
+               self.navigationController?.pushViewController(ticketView, animated: false)
                 
                 
                 
             }
-//            DispatchQueue.main.async {
-//                let homeViewObj = TicketViewController.init(nibName: "TicketViewController", bundle: nil)
-//                homeViewObj.lotterylabel.text = "\(self.randomNumber())"
-//                homeViewObj.textLabel.text = "You cleared first level and won 200 credits, Lottery Ticket number is"
-//                self.navigationController?.pushViewController(homeViewObj, animated: false)
-//            }
         }
         if points >= 150 && points <= 300 {
              Levellabel.text = "LEVEL 3"
@@ -586,64 +649,81 @@ extension GameViewController : ZCSlotMachineDelegate
                 Scoring.sharedGameData.lotteryTickets += 1
                 Scoring.sharedGameData.credits += 250
                 Scoring.sharedGameData.gameLevel = 3
-//                DispatchQueue.main.async {
-//                    let homeViewObj = TicketViewController.init(nibName: "TicketViewController", bundle: nil)
-//                    homeViewObj.lotterylabel.text = "\(self.randomNumber())"
-//                    homeViewObj.textLabel.text = "You cleared Second level and won 250 credits, Lottery Ticket number is"
-//                    self.navigationController?.pushViewController(homeViewObj, animated: false)
-//                }
-                
-            utility.popUpAlert(title : "Congrats", message : "You cleared Second level and won 250 credits, Lottery Ticket number is \(randomNumber())" , cancelButton : "OK", defaultButton : "cancel", ref : self)
-                
-                
+                DispatchQueue.main.async {
+                    let ticketView = TicketViewController.init(nibName: "TicketViewController", bundle: nil)
+                    ticketView.lotteryTicket = "\(self.randomNumber())"
+                    ticketView.textTicket = "You cleared Second level and won 250 credits, Lottery Ticket number is"
+                    self.navigationController?.pushViewController(ticketView, animated: false)
+                    
+                }
             }
         }
         if points >= 300 && points <= 600{
              Levellabel.text = "LEVEL 4"
             DispatchQueue.once(token: "com.slotgame.level3") {
-                utility.popUpAlert(title : "Congrats", message : "You cleared third level and won 250 credits, Lottery Ticket number is \(randomNumber())" , cancelButton : "OK", defaultButton : "cancel", ref : self)
+                let ticketView = TicketViewController.init(nibName: "TicketViewController", bundle: nil)
+                ticketView.lotteryTicket = "\(self.randomNumber())"
+                ticketView.textTicket = "You cleared third level and won 250 credits, Lottery Ticket number is"
+                self.navigationController?.pushViewController(ticketView, animated: false)
+               
                 Scoring.sharedGameData.lotteryTickets += 1
                 Scoring.sharedGameData.credits += 250
                 Scoring.sharedGameData.gameLevel = 4
-                myLotteryTicket()
+                
             }
         }
         if points >= 600 && points <= 1200{
             
              Levellabel.text = "LEVEL 5"
             DispatchQueue.once(token: "com.slotgame.level4") {
-                utility.popUpAlert(title : "Congrats", message : "You cleared fourth level and won bonus roulette, Lottery Ticket number is \(randomNumber())" , cancelButton : "OK", defaultButton : "cancel", ref : self)
+                let ticketView = TicketViewController.init(nibName: "TicketViewController", bundle: nil)
+                ticketView.lotteryTicket = "\(self.randomNumber())"
+                ticketView.textTicket = "You cleared fourth level and won bonus roulette, Lottery Ticket number is"
+                self.navigationController?.pushViewController(ticketView, animated: false)
+                
                 Scoring.sharedGameData.lotteryTickets += 1
                 Scoring.sharedGameData.credits += 250
                 Scoring.sharedGameData.gameLevel = 5
-                myLotteryTicket()
+                
             }
         }
         if points >= 1200 && points <= 2500{
             
              Levellabel.text = "LEVEL 6"
             DispatchQueue.once(token: "com.slotgame.level5") {
-                utility.popUpAlert(title : "Congrats", message : "You cleared fifth level and won 500 credits, Lottery Ticket number is \(randomNumber())" , cancelButton : "OK", defaultButton : "cancel", ref : self)
+                let ticketView = TicketViewController.init(nibName: "TicketViewController", bundle: nil)
+                ticketView.lotteryTicket = "\(self.randomNumber())"
+                ticketView.textTicket = "You cleared fifth level and won 500 credits, Lottery Ticket number is"
+                self.navigationController?.pushViewController(ticketView, animated: false)
+                
                 Scoring.sharedGameData.lotteryTickets += 1
                 Scoring.sharedGameData.credits += 500
                 Scoring.sharedGameData.gameLevel = 6
-                myLotteryTicket()            }
+                            }
         }
         if points >= 2501 && points <= 5000{
             
              Levellabel.text = "LEVEL 7"
             DispatchQueue.once(token: "com.slotgame.level6") {
-                utility.popUpAlert(title : "Congrats", message : "You cleared sixth level and won 1000 credits, Lottery Ticket number is \(randomNumber())" , cancelButton : "OK", defaultButton : "cancel", ref : self)
+                let ticketView = TicketViewController.init(nibName: "TicketViewController", bundle: nil)
+                ticketView.lotteryTicket = "\(self.randomNumber())"
+                ticketView.textTicket = "You cleared sixth level and won 1000 credits, Lottery Ticket number is"
+                self.navigationController?.pushViewController(ticketView, animated: false)
+                
                 Scoring.sharedGameData.lotteryTickets += 1
                 Scoring.sharedGameData.credits += 1000
                 Scoring.sharedGameData.gameLevel = 7
-                myLotteryTicket()
+                
             }
         }
         if points >= 5001 && points <= 10000{
              Levellabel.text = "LEVEL 8"
             DispatchQueue.once(token: "com.slotgame.level7") {
-                utility.popUpAlert(title : "Congrats", message : "You cleared seventh level and won 2000 credits, Lottery Ticket number is \(randomNumber())" , cancelButton : "OK", defaultButton : "cancel", ref : self)
+                let ticketView = TicketViewController.init(nibName: "TicketViewController", bundle: nil)
+                ticketView.lotteryTicket = "\(self.randomNumber())"
+                ticketView.textTicket = "You cleared seventh level and won 2000 credits, Lottery Ticket number is"
+                self.navigationController?.pushViewController(ticketView, animated: false)
+               
                 Scoring.sharedGameData.lotteryTickets += 1
                 Scoring.sharedGameData.credits += 2000
                 Scoring.sharedGameData.gameLevel = 8
@@ -653,13 +733,17 @@ extension GameViewController : ZCSlotMachineDelegate
              Levellabel.text = "LEVEL 9"
             DispatchQueue.once(token: "com.slotgame.level8") {
                
+                let ticketView = TicketViewController.init(nibName: "TicketViewController", bundle: nil)
+                ticketView.lotteryTicket = "\(self.randomNumber())"
+                ticketView.textTicket = "Your next stage is open.Lets play and win more points.You earn 3000 credits, Lottery Ticket number is"
                 
-                //Todo Congrats Screen 
-                
-                utility.popUpAlert(title : "Congrats", message : "Your next stage is open.Lets play and win more points." , cancelButton : "OK", defaultButton : "cancel", ref : self)
+                self.navigationController?.pushViewController(ticketView, animated: false)
                 
                 
-                utility.popUpAlert(title : "Congrats", message : "You cleared eigth level and won 3000 credits, Lottery Ticket number is \(randomNumber())" , cancelButton : "OK", defaultButton : "cancel", ref : self)
+//                utility.popUpAlert(title : "Congrats", message : "Your next stage is open.Lets play and win more points." , cancelButton : "OK", defaultButton : "cancel", ref : self)
+//                
+//                
+//                utility.popUpAlert(title : "Congrats", message : "You cleared eigth level and won 3000 credits, Lottery Ticket number is \(randomNumber())" , cancelButton : "OK", defaultButton : "cancel", ref : self)
                 Scoring.sharedGameData.lotteryTickets += 1
                 Scoring.sharedGameData.credits += 3000
                 Scoring.sharedGameData.gameLevel = 9
@@ -670,9 +754,13 @@ extension GameViewController : ZCSlotMachineDelegate
             Levellabel.text = "LEVEL 10"
             DispatchQueue.once(token: "com.slotgame.level9") {
                 
+                let ticketView = TicketViewController.init(nibName: "TicketViewController", bundle: nil)
+                ticketView.lotteryTicket = "\(self.randomNumber())"
+                ticketView.textTicket = "You cleared ninth level and won bonus roulette, Lottery Ticket number is"
                 
+                self.navigationController?.pushViewController(ticketView, animated: false)
                 
-                utility.popUpAlert(title : "Congrats", message : "You cleared ninth level and won bonus roulette, Lottery Ticket number is \(randomNumber())" , cancelButton : "OK", defaultButton : "cancel", ref : self)
+//                utility.popUpAlert(title : "Congrats", message : "You cleared ninth level and won bonus roulette, Lottery Ticket number is \(randomNumber())" , cancelButton : "OK", defaultButton : "cancel", ref : self)
                 Scoring.sharedGameData.lotteryTickets += 1
                 Scoring.sharedGameData.credits += 3000
                 Scoring.sharedGameData.gameLevel = 10
@@ -682,7 +770,12 @@ extension GameViewController : ZCSlotMachineDelegate
         if credits >= 30001 && credits <= 50000{
             Levellabel.text = "LEVEL 11"
             DispatchQueue.once(token: "com.slotgame.level10") {
-                utility.popUpAlert(title : "Congrats", message : "You cleared tenth level and won bonus roulette, Lottery Ticket number is \(randomNumber())" , cancelButton : "OK", defaultButton : "cancel", ref : self)
+                let ticketView = TicketViewController.init(nibName: "TicketViewController", bundle: nil)
+                ticketView.lotteryTicket = "\(self.randomNumber())"
+                ticketView.textTicket = "You cleared tenth level and won bonus roulette, Lottery Ticket number is"
+                
+                self.navigationController?.pushViewController(ticketView, animated: false)
+               // utility.popUpAlert(title : "Congrats", message : "You cleared tenth level and won bonus roulette, Lottery Ticket number is \(randomNumber())" , cancelButton : "OK", defaultButton : "cancel", ref : self)
                 Scoring.sharedGameData.lotteryTickets += 1
                 Scoring.sharedGameData.credits += 3000
                 Scoring.sharedGameData.gameLevel = 11
@@ -828,7 +921,7 @@ extension GameViewController : UITableViewDataSource
        if tableView.tag == 100 {
          return tableIntRight.count
        }else{
-         return tableIntRight.count
+         return tableInts.count
         }
         
        
@@ -844,7 +937,7 @@ extension GameViewController : UITableViewDataSource
             let stringValue  = String(tableIntRight[indexPath.row])
             cell.numberLbl?.text = stringValue
         }else{
-            let stringValue  = String(tableIntRight[indexPath.row])
+            let stringValue  = String(tableInts[indexPath.row])
             cell.numberLbl?.text = stringValue
         }
         

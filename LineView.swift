@@ -8,6 +8,22 @@
 
 import UIKit
 
+
+
+
+var ValueDictionary = ["Motorcycle_icon1": 10,
+                       "Motorcycle_icon2": 15,
+                       "Motorcycle_icon3": 20,
+                       "Motorcycle_icon4": 27,
+                       "Motorcycle_icon5": 30,
+                       "Motorcycle_icon6": 34,
+                       "Motorcycle_icon7": 40,
+                       "Motorcycle_icon8": 50,
+                       "Motorcycle_icon9": 67,
+                       "Motorcycle_icon10": 100,
+]
+
+
 class LineView : UIView {
     var numberOfLines = 0;
     
@@ -61,7 +77,7 @@ class LineView : UIView {
     
     func createLineFour(context: CGContext, width: Int ,height: Int , xPos: Int)
     {
-        //createLineThree(context: context, width: width,height :height , xPos: xPos);
+        createLineThree(context: context, width: width,height :height , xPos: xPos);
         
         context.setStrokeColor(colorOfView().cgColor)
         context.move(to: CGPoint(x: xPos, y: xPos))
@@ -84,7 +100,7 @@ class LineView : UIView {
     
     func createLineSix(context: CGContext, width: Int , height : Int, xPos: Int)
     {
-       // createLineFive(context: context, width: width,height :height  , xPos: xPos);
+        createLineFive(context: context, width: width,height :height  , xPos: xPos);
         
         context.setStrokeColor(colorOfView().cgColor)
         context.move(to: CGPoint(x: xPos, y: xPos))
@@ -108,7 +124,7 @@ class LineView : UIView {
     
     func createLineEight(context: CGContext, width: Int , height : Int, xPos: Int)
     {
-        //createLineSeven(context: context, width: width, height: height , xPos: xPos);
+        createLineSeven(context: context, width: width, height: height , xPos: xPos);
         
         context.setStrokeColor(colorOfView().cgColor)
         context.move(to: CGPoint(x: xPos, y: xPos + 80))
@@ -136,7 +152,7 @@ class LineView : UIView {
     
     func createLineTen(context: CGContext, width: Int , height : Int, xPos: Int)
     {
-       // createLineNine(context: context, width: width, height: height , xPos: xPos);
+        createLineNine(context: context, width: width, height: height , xPos: xPos);
         
         context.setStrokeColor(colorOfView().cgColor)
         context.move(to: CGPoint(x: xPos, y: xPos + 80))
@@ -160,7 +176,7 @@ class LineView : UIView {
     
     func createLineTwelve(context: CGContext, width: Int , height : Int, xPos: Int)
     {
-       // createLineEleven(context: context, width: width, height: height , xPos: xPos);
+        createLineEleven(context: context, width: width, height: height , xPos: xPos);
         
         context.setStrokeColor(colorOfView().cgColor)
         context.move(to: CGPoint(x: xPos, y: xPos))
@@ -186,7 +202,7 @@ class LineView : UIView {
     
     func createLineFourteen(context: CGContext, width: Int , height : Int, xPos: Int)
     {
-        //createLineThirteen(context: context, width: width, height: height , xPos: xPos);
+        createLineThirteen(context: context, width: width, height: height , xPos: xPos);
         
         context.setStrokeColor(colorOfView().cgColor)
         context.move(to: CGPoint(x: xPos, y: xPos + 80))
@@ -212,7 +228,7 @@ class LineView : UIView {
     
     func createLineSixteen(context: CGContext, width: Int , height : Int, xPos: Int)
     {
-        // createLineFifteen(context: context, width: width, height: height , xPos: xPos);
+         createLineFifteen(context: context, width: width, height: height , xPos: xPos);
         
         context.setStrokeColor(colorOfView().cgColor)
         context.move(to: CGPoint(x: xPos, y: xPos))
@@ -240,7 +256,7 @@ class LineView : UIView {
     
     func createLineEighteen(context: CGContext, width: Int , height : Int, xPos: Int)
     {
-        //createLineSeventeen(context: context, width: width, height: height , xPos: xPos);
+        createLineSeventeen(context: context, width: width, height: height , xPos: xPos);
         
         context.setStrokeColor(colorOfView().cgColor)
         context.move(to: CGPoint(x: xPos, y: xPos + 80))
@@ -268,7 +284,7 @@ class LineView : UIView {
     }
     func createLineTwenty(context: CGContext, width: Int , height : Int, xPos: Int)
     {
-//        createLineNinteen(context: context, width: width, height: height , xPos: xPos);
+        createLineNinteen(context: context, width: width, height: height , xPos: xPos);
         
         context.setStrokeColor(colorOfView().cgColor)
         context.move(to: CGPoint(x: xPos, y: height - xPos))
@@ -296,7 +312,7 @@ class LineView : UIView {
     
     func createLineTwentyTwo(context: CGContext, width: Int , height : Int, xPos: Int)
     {
-//        createLineTwentyOne(context: context, width: width, height: height , xPos: xPos);
+        createLineTwentyOne(context: context, width: width, height: height , xPos: xPos);
         
         context.setStrokeColor(colorOfView().cgColor)
         context.move(to: CGPoint(x: xPos, y: xPos))
@@ -322,7 +338,7 @@ class LineView : UIView {
     
     func createLineTwentyFour(context: CGContext, width: Int , height : Int, xPos: Int)
     {
-        //createLineTwentyThree(context: context, width: width, height: height , xPos: xPos);
+        createLineTwentyThree(context: context, width: width, height: height , xPos: xPos);
         context.setStrokeColor(colorOfView().cgColor)
         context.move(to: CGPoint(x: xPos, y: xPos))
         context.addLine(to: CGPoint(x: 220, y:  height - xPos))
